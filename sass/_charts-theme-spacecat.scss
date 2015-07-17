@@ -1,0 +1,152 @@
+.workspace {
+    .chart {
+        box-shadow: 0 0 1rem 0 #000 inset, 0 0 0 .25rem, 0 1.5rem 2rem -.5rem rgba(#000, .35);
+        background-color: rgba($dark, .35);;
+        @include background-stripes(0.1, 45deg, 1rem);
+    }
+    &.spacecat {
+        .canvas {
+            background-image: url(../spacecat.jpg);
+            background-size: cover;
+        }
+        color: #FFF;
+    }
+    &:not(.spacecat) {
+        .chart {
+            background-color: $dark; //rgba($dark, .35);
+        }
+    }
+    .controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 3em;
+    }
+}
+
+.chart-wrapper {
+    &[format=radial] {
+        .label {
+            opacity: 0;
+            span {
+                background: $dark;
+                color: $light;
+            }
+        }
+
+        &[type="pie"] {
+            .chart {
+                &:after {
+                    background-color: rgba($dark, .35);
+                }
+            }
+            .totals {
+                color: $light;
+            }
+        }
+
+        &[type="donut"] {
+            .chart {
+                box-shadow: 0 0 0 .25rem, 0 1.5rem 2rem -.5rem rgba(#000, .35);
+                &:after {
+                    border-radius: 100%;
+                    content: attr(title);
+                    box-shadow: 0 0 2rem 0 #000 inset;
+                    width: 80%;
+                    height: 80%;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
+                }
+            }
+            .totals {
+                color: $light;
+            }
+        }
+    }
+
+    &[format=block] {
+        .label {
+            span {
+                background: $dark;
+                color: $light;
+            }
+            &:after {
+                border-bottom-color: $dark;
+            }
+        }
+        &[type="stacked"] {
+            border-radius: .5em;
+            width: 50%;
+            .chart {
+                border-radius: 1em;
+                height: 1em;
+                .segment {
+                    &:first-of-type .value {
+                        border-radius: 1em 0 0 1em;
+                    }
+                    &:last-of-type .value {
+                        border-radius: 0 1em 1em 0;
+                    }
+                    &:only-of-type .value {
+                        border-radius: 1em;
+                    }
+                }
+            }
+        }
+
+        &[type="bars"] {
+            border-radius: .5em;
+            .chart {
+                border-radius: .01em;
+                .segment {
+                    width: .1em;
+                }
+                .value {
+                    border-radius: .02em .02em 0 0;
+                }
+            }
+        }
+
+    }
+
+
+    .legend {
+        position: relative;
+        font-size: 5%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 2em 0 0 0;
+        padding: .5em;
+        background: $dark;
+        border-radius: .5em;
+        div {
+            margin: .5em;
+            align-items: flex-start;
+            flex: 1 1 auto;
+            line-height: 0;
+            &:before {
+                content: '';
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                background: currentColor;
+                margin-right: .5em;
+                vertical-align: middle;
+                border-radius: .1em;
+            }
+            span {
+                color: $light;
+                position: relative;
+            }
+        }
+    }
+    .supplemental {
+        font-size: 1rem;
+        padding: 1em;
+        line-height: 1.4;
+    }
+}
