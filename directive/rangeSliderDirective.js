@@ -16,8 +16,8 @@
                     return _.range(0, max);
                 };
 
-                $scope._supportThrottle = function _supportThrottle() {
-                    return ($angular.isDefined(_) && typeof _.throttle === 'function');
+                $scope._supportDebounce = function _supportDebounce() {
+                    return ($angular.isDefined(_) && typeof _.debounce === 'function');
                 };
 
                 $scope._notInRunLoop = function _notInRunLoop() {
@@ -27,10 +27,10 @@
 
             template: '' +
                 '<div class="range-slider">' +
-                    '<datalist ng-id="{{config.datalist}}" ng-if="config.datalist">' +
+                    '<datalist id="{{config.datalist}}" ng-if="config.datalist">' +
                         '<option ng-repeat="index in iter(config.max)">{{index}}</option>' +
                     '</datalist>' +
-                    '<input class="exclude" type="range" ng-change="_which=0" ng-model="_model[0]" min="{{_values.min}}" max="{{_values.max}}" step="{{_step}}" ng-attr-list="config.datalist" />' +
+                    '<input class="exclude" type="range" ng-change="_which=0" ng-model="_model[0]" min="{{_values.min}}" max="{{_values.max}}" step="{{_step}}" ng-attr-list="{{config.datalist}}" />' +
                     '<input class="exclude" type="range" ng-change="_which=1" ng-model="_model[1]" min="{{_values.min}}" max="{{_values.max}}" step="{{_step}}" />' +
                 '</div>',
 
@@ -40,7 +40,7 @@
                     max: 100,
                     gap: 1,
                     step: 0.5,
-                    throttle: 0,
+                    debounce: 300,
                     datalist: false
                 };
 
@@ -49,13 +49,21 @@
                 scope.$watch('config', function(n, o) {
                     scope.config = $.extend(true, $angular.copy(defaultConfig), scope.config);
                     if(n && o && n !== o) {
+                        scope.config.min = parseFloat(scope.config.min);
+                        scope.config.max = parseFloat(scope.config.max);
+                        scope.config.gap = parseFloat(scope.config.gap);
+                        scope.config.step = parseFloat(scope.config.step);
+                        scope.config.debounce = parseInt(scope.config.debounce);
+
+                        scope._gap = scope.config.gap;
+                        scope._step = scope.config.step;
+                        scope._debounce = scope.config.debounce;
+
+                        scope._values = {
+                            min: scope.config.min || 0,
+                            max: scope.config.max || 100
+                        };
                         _reevaluateInputs();
-                        if(n.min !== o.min) {
-                            updateMinMax.bind('min');
-                        }
-                        if(n.max !== o.max) {
-                            updateMinMax.bind('max');
-                        }
                     }
                 }, true);
 
@@ -72,6 +80,7 @@
                 scope._step = scope.config.step || 1;
 
                 scope._gap = $window.parseFloat(scope.config.gap) || 0;
+                scope._debounce = $window.parseInt(scope.config.debounce);
 
                 var _reevaluateInputs = function() {
                     var inputElements = element.find('input');
@@ -79,7 +88,7 @@
                     _.each(inputElements, function (inputElement, index) {
                         inputElement = $angular.element(inputElement);
 
-                        inputElement.val('');
+                        // inputElement.val('');
                         inputElement.val(scope._model[index]);
                     });
                 };
@@ -121,10 +130,10 @@
                     }
                 };
 
-                if (scope.config.throttle && scope._supportThrottle()) {
+                if (scope._debounce && scope._supportDebounce()) {
                     // Use the throttled version if we support it,
                     // and the developer has defined the throttle attribute.
-                    _updateModel = _.throttle(_updateModel, $window.parseFloat(scope.config.throttle));
+                    _updateModel = _.debounce(_updateModel, scope._debounce);
                 }
 
                 // Observe the `_model` for any changes.
@@ -143,10 +152,8 @@
                         scope._model[0] = scope._model[1] - scope._gap;
                     }
 
-
                     // Constrain to the min/max values.
                     (function constrainMinMax() {
-
                         if (scope._model[0] < scope._values.min) {
                             scope._model[0] = scope._values.min;
                         }
@@ -174,10 +181,7 @@
                         if(scope._model[1] < _m0Gap) {
                             scope._model[1] = _m0Gap;
                         }
-
                     })();
-
-                    window.console.log(scope._model);
 
                     // Update the model!
                     _updateModel(scope._model);
