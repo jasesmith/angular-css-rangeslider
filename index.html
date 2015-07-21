@@ -23,6 +23,7 @@
                 <main class="main">
                     <div class="canvas">
                         <range-slider config="rangeConfig" model="range"></range-slider>
+
                         <div>
                             <b><br />Model<hr /></b>
                             <pre>{{range | json}}</pre>
@@ -32,14 +33,15 @@
                     </div>
 
                     <div class="settings">
+                        <b>directive<hr /></b>
+                        <textarea class="basic">&lt;range-slider config="configObj" model="modelObj"&gt;&lt;/range-slider&gt;</textarea>
+                        <br />
                         <div class="flex-row">
                             <div class="flex-column flex-1">
                                 <b>range options<hr /></b>
-                                <label><input type="number" ng-model="rangeConfig.min" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" /> Min</label>
-                                <label><input type="number" ng-model="rangeConfig.max" min="0" max="999" maxlength="3" size="3" /> Max</label>
                                 <label><input type="number" ng-model="rangeConfig.step" min="0" max="1" step=".5" maxlength="3" size="3" /> Step</label>
-                                <label><input type="number" ng-model="rangeConfig.gap" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" /> Forced Gap</label>
-                                <!-- <label><input type="range" ng-model="rangeConfig.debounce" min="0" max="3000" /> Debounce</label> -->
+                                <label><input type="number" ng-model="rangeConfig.gap" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" /> Gap</label>
+                                <label><input type="range" ng-model="rangeConfig.debounce" min="0" max="3000" /> Debounce</label>
                             </div>
                             <div class="flex-column flex-1">
                                 <b>visual styles<hr /></b>
@@ -56,24 +58,36 @@
                         </div>
                         <b><br />range labels (min/max)<hr /></b>
                         <div>
+                            <label><input type="checkbox" ng-model="rangeConfig.labels.show" /> Show Text</label>
+                            &nbsp;&nbsp;
+                            <label><input type="checkbox" ng-model="rangeConfig.labels.values" /> Show Values</label>
+                        </div>
+                        <br />
+                        <div ng-class="{'ghost': !rangeConfig.labels.show}">
                             <label><input type="text" ng-model="rangeConfig.labels.minPrefix" placeholder="min prefix" /></label>
-                            <input type="text" ng-model="rangeConfig.min" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" readonly />
+                            <input type="number" ng-model="rangeConfig.min" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" ng-class="{'ghost': !rangeConfig.labels.values}" />
                             <label><input type="text" ng-model="rangeConfig.labels.minSuffix" placeholder="min suffix" /></label>
                         </div>
-                        <div>
+                        <div ng-class="{'ghost': !rangeConfig.labels.show}">
                             <label><input type="text" ng-model="rangeConfig.labels.maxPrefix" placeholder="max prefix" /></label>
-                            <input type="text" ng-model="rangeConfig.max" min="0" max="999" maxlength="3" size="3" readonly />
+                            <input type="number" ng-model="rangeConfig.max" min="0" max="999" maxlength="3" size="3" ng-class="{'ghost': !rangeConfig.labels.values}" />
                             <label><input type="text" ng-model="rangeConfig.labels.maxSuffix" placeholder="max suffix" /></label>
                         </div>
                         <b><br />range handles (min/max)<hr /></b>
                         <div>
+                            <label><input type="checkbox" ng-model="rangeConfig.handles.show" /> Show Text</label>
+                            &nbsp;&nbsp;
+                            <label><input type="checkbox" ng-model="rangeConfig.handles.values" /> Show Values</label>
+                        </div>
+                        <br />
+                        <div ng-class="{'ghost': !rangeConfig.handles.show}">
                             <label><input type="text" ng-model="rangeConfig.handles.minPrefix" placeholder="min prefix" /></label>
-                            <input type="text" ng-model="range.from" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" readonly />
+                            <input type="number" ng-model="range.from" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" readonly ng-class="{'ghost': !rangeConfig.handles.values}" />
                             <label><input type="text" ng-model="rangeConfig.handles.minSuffix" placeholder="min suffix" /></label>
                         </div>
-                        <div>
+                        <div ng-class="{'ghost': !rangeConfig.handles.show}">
                             <label><input type="text" ng-model="rangeConfig.handles.maxPrefix" placeholder="max prefix" /></label>
-                            <input type="text" ng-model="range.to" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" readonly />
+                            <input type="number" ng-model="range.to" min="0" max="{{rangeConfig.max}}" maxlength="3" size="3" readonly ng-class="{'ghost': !rangeConfig.handles.values}" />
                             <label><input type="text" ng-model="rangeConfig.handles.maxSuffix" placeholder="max suffix" /></label>
                         </div>
                     </div>

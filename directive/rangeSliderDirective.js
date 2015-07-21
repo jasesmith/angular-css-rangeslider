@@ -27,9 +27,9 @@
 
             template: '' +
                 '<div class="range-slider {{config.style}}">' +
-                    '<div class="range-slider-label">' +
+                    '<div class="range-slider-label" ng-if="config.labels.show">' +
                         '<span class="min-prefix">{{config.labels.minPrefix}}</span> ' +
-                        '<span class="min-value">{{config.min}}</span> ' +
+                        '<span class="min-value" ng-show="config.labels.values">{{config.min}}</span> ' +
                         '<span class="min-suffix">{{config.labels.minSuffix}}</span>' +
                     '</div>' +
 
@@ -41,21 +41,21 @@
                         '<input class="exclude" type="range" ng-change="_which=0" ng-model="_model[0]" min="{{_values.min}}" max="{{_values.max}}" step="{{_step}}" />' +
                         '<input class="exclude" type="range" ng-change="_which=1" ng-model="_model[1]" min="{{_values.min}}" max="{{_values.max}}" step="{{_step}}" />' +
 
-                        '<div class="range-slider-handle-min" style="left:{{_handleMinX}}%">' +
+                        '<div class="range-slider-handle-min" ng-if="config.handles.show" style="left:{{_handleMinX}}%">' +
                             '<span class="min-prefix">{{config.handles.minPrefix}}</span> ' +
-                            '<span class="min-value">{{_model[0]}}</span> ' +
+                            '<span class="min-value" ng-show="config.handles.values">{{_model[0]}}</span> ' +
                             '<span class="min-suffix">{{config.handles.minSuffix}}</span>' +
                         '</div>' +
-                        '<div class="range-slider-handle-max" style="left:{{_handleMaxX}}%">' +
+                        '<div class="range-slider-handle-max" ng-if="config.handles.show" style="left:{{_handleMaxX}}%">' +
                             '<span class="max-prefix">{{config.handles.maxPrefix}}</span> ' +
-                            '<span class="max-value">{{_model[1]}}</span> ' +
+                            '<span class="max-value" ng-show="config.handles.values">{{_model[1]}}</span> ' +
                             '<span class="max-suffix">{{config.handles.maxSuffix}}</span>' +
                         '</div>' +
                     '</div>' +
 
-                    '<div class="range-slider-label">' +
+                    '<div class="range-slider-label" ng-if="config.labels.show">' +
                         '<span class="max-prefix">{{config.labels.maxPrefix}}</span> ' +
-                        '<span class="max-value">{{config.max}}</span> ' +
+                        '<span class="max-value" ng-show="config.labels.values">{{config.max}}</span> ' +
                         '<span class="max-suffix">{{config.labels.maxSuffix}}</span>' +
                     '</div>' +
                 '</div>',
@@ -66,16 +66,19 @@
                     max: 100,
                     gap: 1,
                     step: 0.5,
-                    debounce: 300,
+                    debounce: 0,
                     style: '',
                     labels: {
+                        show: true,
+                        values: true,
                         minPrefix: '',
                         minSuffix: '',
                         maxPrefix: '',
                         maxSuffix: ''
                     },
                     handles: {
-                        thing: '',
+                        show: true,
+                        values: true,
                         minPrefix: '',
                         minSuffix: '',
                         maxPrefix: '',

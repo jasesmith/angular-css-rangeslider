@@ -55,9 +55,11 @@ input:not(.exclude) {
         border-radius: .2em;
         &:before {
             content: "\f00c"; // check
+            opacity: .4;
         }
         &:checked:before {
             color: $active;
+            opacity: 1;
         }
     }
 
@@ -147,6 +149,10 @@ textarea:not(.exclude) {
     background: transparent;
     resize: none;
     line-height: 1.4;
+    &.basic {
+        background: $light;
+        border-radius: .3em;
+    }
 }
 
 input::-webkit-input-placeholder {
