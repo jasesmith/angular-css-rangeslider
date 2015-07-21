@@ -118,6 +118,9 @@ input:not(.exclude) {
         display: inline-block;
         padding: .5em;
         margin: 0;
+        &[readonly] {
+            background: mix($dark, $light, 35%);
+        }
     }
 
     &[type="number"] {

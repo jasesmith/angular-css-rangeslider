@@ -32,6 +32,21 @@ html, body, .wrapper {
     }
 }
 
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+
 .workspace {
     display: flex;
     flex-direction: row;
@@ -52,7 +67,7 @@ html, body, .wrapper {
     }
     .canvas {
         flex: 1;
-        padding: $gutter;
+        padding: $gutter*3 $gutter;
     }
     .settings {
         display: flex;

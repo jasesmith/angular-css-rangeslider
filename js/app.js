@@ -1,4 +1,7 @@
-angular.module('app', ['jamfu'])
+(function($angular, _) {
+    'use strict';
+
+    $angular.module('app', ['jamfu'])
     .controller('AppController', ['$scope', function($scope) {
 
         $scope.headline = 'Range Slider';
@@ -6,15 +9,29 @@ angular.module('app', ['jamfu'])
 
         $scope.rangeConfig = {
             min: 0,
-            max: 11,
+            max: 100,
             gap: 1,
-            step: 0.5,
-            datalist: 'numbers'
+            step: 1,
+            debounce: 0,
+            handles: {
+                minPrefix: 'Start Day',
+                minSuffix: '',
+                maxPrefix: 'End Day',
+                maxSuffix: ''
+            },
+            labels: {
+                minPrefix: '',
+                minSuffix: '/ Today',
+                maxPrefix: '',
+                maxSuffix: 'Days Ago'
+            }
+
         };
 
         $scope.range = {
-            from:3,
-            to:6
+            from:10,
+            to:50
         };
 
     }]);
+})(window.angular, window._);
